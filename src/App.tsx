@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Helmet } from 'react-helmet'
 import ResponsiveAppBar from './components/common/nav/ResponsiveAppBar'
 // Material UI fonts
 import '@fontsource/roboto/300.css'
@@ -12,6 +13,9 @@ function App() {
 
     return (
         <div className="App">
+            <Helmet>
+                <title> Wish It Web App</title>
+            </Helmet>
             <ResponsiveAppBar />
         </div>
     )
