@@ -20,28 +20,7 @@ function ResponsiveAppBar() {
 
     const { user, isAuthenticated, isLoading, logout } = useAuth0()
 
-  return (
-    <AppBar position="static" sx={{background: "#242426", border: "2px solid white"}}>
-      <Container maxWidth={false}>
-        <Toolbar disableGutters>
-          <AutoFixHighOutlinedIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} className="icon"/>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-          >
-            WISHiT
-          </Typography>
+                                fontFamily: 'Sarina',
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' }, maxWidth: "fit-content" }}>
             <IconButton
