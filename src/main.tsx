@@ -1,10 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { 
-  createBrowserRouter,
-  RouterProvider,
- } from "react-router-dom";
-import App from './App'
+import { Auth0Provider } from '@auth0/auth0-react'
 import './index.css'
 import ErrorPage from './pages/error-page';
 
@@ -25,7 +21,12 @@ const router = createBrowserRouter([
 
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+        <Auth0Provider
+            domain="dev-at6uinsfl53etukd.us.auth0.com"
+            clientId="XNRFDCgiBELQ9pgWdzka9l8JvscifnjD"
+            authorizationParams={{
+                redirect_uri: 'https://localhost:5173/wishlists',
+            }}
+        >
+        </Auth0Provider>
 )
