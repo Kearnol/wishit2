@@ -1,19 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { Auth0Provider } from '@auth0/auth0-react'
-import Routes from './routes/Routes'
-import './index.css'
+import ReactDOM from 'react-dom/client';
+import Routes from './routes/Routes';
+import theme from './utils/theme';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+import CssBaseline from '@mui/material/CssBaseline';
+import './index.css';
+import { AuthProvider } from './contexts/AuthContext';
+
+// Load environment variables
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <React.StrictMode>
-        <Auth0Provider
-            domain="dev-at6uinsfl53etukd.us.auth0.com"
-            clientId="XNRFDCgiBELQ9pgWdzka9l8JvscifnjD"
-            authorizationParams={{
-                redirect_uri: 'https://localhost:5173/wishlists',
-            }}
-        >
-            <Routes />
-        </Auth0Provider>
-    </React.StrictMode>
-)
+    <ThemeProvider theme={theme}>
+        <CssBaseline>
+            <AuthProvider>
+                <Routes />
+            </AuthProvider>
+        </CssBaseline>
+    </ThemeProvider>
+);
