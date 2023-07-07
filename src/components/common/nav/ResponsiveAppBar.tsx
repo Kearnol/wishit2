@@ -1,52 +1,66 @@
-import * as React from 'react'
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Toolbar from '@mui/material/Toolbar'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-import Menu from '@mui/material/Menu'
-import MenuIcon from '@mui/icons-material/Menu'
-import Container from '@mui/material/Container'
-import Avatar from '@mui/material/Avatar'
-import Button from '@mui/material/Button'
-import Tooltip from '@mui/material/Tooltip'
-import MenuItem from '@mui/material/MenuItem'
-import { Link } from 'react-router-dom'
-import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined'
-import { useAuth0 } from '@auth0/auth0-react'
+import * as React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import IconButton from '@mui/material/IconButton';
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import Container from '@mui/material/Container';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
+import AutoFixHighOutlinedIcon from '@mui/icons-material/AutoFixHighOutlined';
+import { useTheme } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+import './ResponsiveAppBar.scss';
+import { useAuth } from 'src/contexts/AuthContext';
 
-const pages = ['Wishlists', 'Create', 'Connect', 'Explore']
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
+const pages = ['Wishlists', 'Create', 'Connect', 'Explore'];
+const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
+    const theme = useTheme();
+    const location = useLocation();
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
         null
-    )
+    );
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(
         null
-    )
+    );
+
+    const { logout } = useAuth();
+
+    const isCurrentLink = (link: string) => {
+        const regex = new RegExp(`/${link.toLowerCase()}`);
+        if (location.pathname.match(regex)) {
+            return 'app-bar__nav-link--current';
+        }
+        return null;
+    };
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElNav(event.currentTarget)
-    }
+        setAnchorElNav(event.currentTarget);
+    };
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorElUser(event.currentTarget)
-    }
+        setAnchorElUser(event.currentTarget);
+    };
 
     const handleCloseNavMenu = () => {
-        setAnchorElNav(null)
-    }
+        setAnchorElNav(null);
+    };
 
     const handleCloseUserMenu = () => {
-        setAnchorElUser(null)
-    }
-
-    const { user, isAuthenticated, isLoading, logout } = useAuth0()
+        setAnchorElUser(null);
+    };
 
     return (
         <>
             <AppBar
                 position="relative"
+                className="app-bar"
                 sx={{
                     background: '#242426',
                     border: '2px solid white',
@@ -58,6 +72,7 @@ function ResponsiveAppBar() {
                         <AutoFixHighOutlinedIcon
                             sx={{
                                 mr: 1,
+                                color: 'white',
                             }}
                             className="icon"
                         />
@@ -71,7 +86,7 @@ function ResponsiveAppBar() {
                                 fontFamily: 'Sarina',
                                 fontWeight: 700,
                                 letterSpacing: '.3rem',
-                                color: 'inherit',
+                                color: theme.palette.primary.main,
                                 textDecoration: 'none',
                             }}
                         >
@@ -142,15 +157,18 @@ function ResponsiveAppBar() {
                             }}
                         >
                             {pages.map((page) => (
-                                <Link to={`/${page.toLowerCase()}`}>
+                                <Link
+                                    to={`/${page.toLowerCase()}`}
+                                    className="app-bar__nav-link"
+                                >
                                     <Button
                                         key={page}
+                                        className={`${isCurrentLink(page)}`}
                                         onClick={handleCloseNavMenu}
                                         sx={{
                                             my: 2,
                                             color: 'white',
                                             display: 'block',
-                                            fontFamily: '',
                                         }}
                                     >
                                         {page}
@@ -168,11 +186,8 @@ function ResponsiveAppBar() {
                                     sx={{ p: 0 }}
                                 >
                                     <Avatar
-                                        alt={user?.name}
-                                        src={
-                                            user?.picture ??
-                                            '/static/images/avatar/2.jpg'
-                                        }
+                                        src="/static/images/avatar/2.jpg"
+                                        alt="user profile"
                                     />
                                 </IconButton>
                             </Tooltip>
@@ -197,20 +212,13 @@ function ResponsiveAppBar() {
                                         return (
                                             <MenuItem
                                                 key={setting}
-                                                onClick={() =>
-                                                    logout({
-                                                        logoutParams: {
-                                                            returnTo:
-                                                                'https://localhost:5173/login',
-                                                        },
-                                                    })
-                                                }
+                                                onClick={() => logout()}
                                             >
                                                 <Typography textAlign="center">
                                                     {setting}
                                                 </Typography>
                                             </MenuItem>
-                                        )
+                                        );
                                     }
                                     return (
                                         <MenuItem
@@ -221,7 +229,7 @@ function ResponsiveAppBar() {
                                                 {setting}
                                             </Typography>
                                         </MenuItem>
-                                    )
+                                    );
                                 })}
                             </Menu>
                         </Box>
@@ -230,6 +238,6 @@ function ResponsiveAppBar() {
                 </Container>
             </AppBar>
         </>
-    )
+    );
 }
-export default ResponsiveAppBar
+export default ResponsiveAppBar;
